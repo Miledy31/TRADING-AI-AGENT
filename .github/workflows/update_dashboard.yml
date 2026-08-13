@@ -1,1 +1,26 @@
+name: Update Trading Dashboard
 
+on:
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install openpyxl pandas
+
+      - run: python update_trading_dashboard.py
+
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Trading_Dashboard_V1_1.xlsx
+          git commit -m "Auto-update dashboard" || echo "No changes"
+          git push
